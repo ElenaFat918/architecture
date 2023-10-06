@@ -1,8 +1,8 @@
-from hw_1.models.data import *
-from hw_1.models.flash import Flash
-from hw_1.models.poligonal_model import PoligonalModel
-from hw_1.models.scene import Scene
-from hw_1.service.i_model_changer import IModelChanger
+from hw_1.model_elements.data import *
+from hw_1.model_elements.flash import Flash
+from hw_1.model_elements.poligonal_model import PoligonalModel
+from hw_1.model_elements.scene import Scene
+from hw_1.in_memory_model.i_model_changer import IModelChanger
 
 
 class ModelStore:
