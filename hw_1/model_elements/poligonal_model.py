@@ -1,4 +1,4 @@
-from hw_1.models.poligon import Poligon
+from hw_1.model_elements.poligon import Poligon
 
 
 class PoligonalModel:

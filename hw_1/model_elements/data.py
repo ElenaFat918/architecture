@@ -1,6 +1,6 @@
-from hw_1.models.camera import Camera
-from hw_1.models.flash import Flash
-from hw_1.models.poligonal_model import PoligonalModel
+from hw_1.model_elements.camera import Camera
+from hw_1.model_elements.flash import Flash
+from hw_1.model_elements.poligonal_model import PoligonalModel
 
 
 class Point3D:

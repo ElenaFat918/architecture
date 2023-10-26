@@ -1,4 +1,4 @@
-from hw_1.models.data import Point3D
+from hw_1.model_elements.data import Point3D
 
 
 class Poligon:
