@@ -1,0 +1,194 @@
+openapi: 3.0.3
+info:
+  title: Облачное хранилище
+  description: Сервис ареднды облачных серверов
+  contact:
+    email: apiteam@swagger.io
+  version: 1.0.0
+servers:
+  - url: https://virtual-mashines.ru
+tags:
+  - name: Clouds
+    description: Список активных клиентов
+  - name: Cloud
+    description: Страница клиента
+paths:
+  /clouds:
+    get:
+      tags:
+        - Clouds
+      summary: Список клиентов
+      description: Получение списка клиентов
+      operationId: cloudsList
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Clouds'          
+        '400':
+          description: Ошибка
+          content:
+            adplication/json:
+              schema:
+                $ref: "#/components/schemas/Error"  
+  /cloud/{id}:
+    get:
+      tags:
+        - Cloud
+      summary: Страница PC клинта
+      description: Информация о PC по id клиента
+      operationId: cloudIdInfo
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Client PC id
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cloud'          
+        '400':
+          description: Ошибка
+          content:
+            adplication/json:
+              schema:
+                $ref: "#/components/schemas/Error"  
+    put:
+      tags:
+        - Cloud
+      summary: Обновление PC по id
+      description: Обновление информации о PC клиента по id
+      operationId: updateCloudId
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Client PC id
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Cloud'
+        required: true
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cloud'          
+        '400':
+          description: Ошибка
+          content:
+            adplication/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      tags:
+        - Cloud
+      summary: Удаление PC клинта
+      description: Удаление PC по id клиента
+      operationId: deleteCloudId
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Client PC id
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema: {}
+        '400':
+          description: Ошибка
+          content:
+            adplication/json:
+              schema:
+                $ref: "#/components/schemas/Error"  
+  /newcloud:
+    post:
+      tags:
+        - Cloud
+      summary: Создание нового PC клиента
+      description: Информация о PC 
+      operationId: createCloudId
+      requestBody:
+        required: true
+        content:
+            adplication/json:
+              schema:
+                $ref: "#/components/schemas/Cloud"
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cloud'          
+        '400':
+          description: Ошибка
+          content:
+            adplication/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+components:
+  schemas:
+    Clouds:
+      type: array
+      items:
+        $ref: "#/components/schemas/Cloud"
+    Cloud:
+      type: object
+      required:
+        - OS
+        - RAM
+        - CPU
+        - SSD
+        - idClient
+      properties:
+        OS:
+          type: string
+          enum:
+            - Windows
+            - Linux
+        RAM:
+          type: integer
+          example: 256
+          description: Количество оперативной памяти
+        CPU:
+          type: integer
+          example: 8
+          description: Количество ядер процессора 
+        SSD:
+          type: integer
+          example: 1024
+          description: Количетсво ssd памяти
+        idClient:
+          type: integer
+          example: 1
+    Error:
+      type: object
+      required:
+        - codeError
+        - messageError
+      properties:
+        codeError:
+          type: string
+          example: 123f456
+          description: Код ошибки
+        messageError:
+          type: string
+          example: error
+          description: Сообщение об ошибке
