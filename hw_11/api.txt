@@ -1,0 +1,452 @@
+openapi: 3.0.3
+info:
+  title: Облачный сервис роботов-пылесосов
+  description: Сервис по управлению роботами-пылесосами через облачный сервер
+  contact:
+    email: support@server-machines.org
+  version: 0.0.1
+servers:
+  - url: https://server-machines.org/api
+tags:
+  - name: Autorization
+    description: Авторизация пользователя
+  - name: Admin
+    description: Авторизация админа
+  - name: Registration
+    description: Регистрация нового пользователя
+  - name: ListMashines
+    description: Список доступных роботов
+  - name: Functions
+    description: Список функций для робота
+  - name: Mashine
+    description: Запросы для режимов
+paths:
+  /login:
+    get:
+      tags:
+        - Autorization
+      summary: Авторизация
+      description: Авторизация пользователя
+      operationId: autorizated
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: Ошибка
+          content:
+            adplication/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      tags:
+        - Autorization
+      summary: Авторизация
+      description: Авторизация пользователя
+      operationId: autorizatedLogin
+      requestBody:
+        required: true
+        content:
+            adplication/json:
+              schema:
+                $ref: "#/components/schemas/LoginForm"
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: Ошибка
+          content:
+            adplication/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /admin:
+    get:
+      tags:
+        - Admin
+      summary: Авторизация
+      description: Авторизация админимтратора
+      operationId: autorizatedAdmin
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: Ошибка
+          content:
+            adplication/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      tags:
+        - Admin
+      summary: Авторизация
+      description: Авторизация пользователя
+      operationId: autorizationAdmin
+      requestBody:
+        required: true
+        content:
+            adplication/json:
+              schema:
+                $ref: "#/components/schemas/LoginForm"
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: Ошибка
+          content:
+            adplication/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /new-user:
+    get:
+      tags:
+        - Registration
+      summary: Регистарация
+      description: Регистарация пользователя
+      operationId: registration
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: Ошибка
+          content:
+            adplication/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      tags:
+        - Registration
+      summary: Регистрация
+      description: Регистрация пользователя
+      operationId: registrated
+      requestBody:
+        required: true
+        content:
+            adplication/json:
+              schema:
+                $ref: "#/components/schemas/LoginForm"
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: Ошибка
+          content:
+            adplication/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /list-mashines/{id}:
+    get:
+      tags:
+        - ListMashines
+      summary: Роботы
+      description: Список доступных роботов
+      operationId: listMashines
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: id Client
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            adplication/json:
+              schema:
+                $ref: "#/components/schemas/Mashines"
+        '400':
+          description: Ошибка
+          content:
+            adplication/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /functions{id_m}:
+    get:
+      tags:
+        - Functions
+      summary: Функции
+      description: Список функций
+      operationId: functions
+      parameters:
+        - name: id_m
+          in: path
+          required: true
+          description: id mashine
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            adplication/json: {}
+        '400':
+          description: Ошибка
+          content:
+            adplication/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /mode/{id_m}:
+    get:
+      tags:
+        - Mashine
+      summary: Режимы
+      description: Список доступных режимов
+      operationId: listMode
+      parameters:
+        - name: id_m
+          in: path
+          required: true
+          description: id mashine
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            adplication/json:
+              schema:
+                $ref: "#/components/schemas/Modes"
+        '400':
+          description: Ошибка
+          content:
+            adplication/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      tags:
+        - Mashine
+      summary: Запустить режим
+      description: Выбор и запуск режима
+      operationId: runMode
+      parameters:
+        - name: id_m
+          in: path
+          required: true
+          description: id mashine
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+            adplication/json:
+              schema:
+                $ref: "#/components/schemas/Mode"
+      responses:
+        '200':
+          description: successful operation
+          content:
+            adplication/json:
+              schema:
+                $ref: "#/components/schemas/Mode"
+        '400':
+          description: Ошибка
+          content:
+            adplication/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /create-mode/{id_m}:
+    get:
+      tags:
+        - Mashine
+      summary: Новый режим
+      description: Создание нового режима
+      operationId: createMode
+      parameters:
+        - name: id_m
+          in: path
+          required: true
+          description: id mashine
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            adplication/json:
+              schema:
+                $ref: "#/components/schemas/Mode"
+        '400':
+          description: Ошибка
+          content:
+            adplication/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      tags:
+        - Mashine
+      summary: Новый режим
+      description: Создание нового режима
+      operationId: createdMode
+      parameters:
+        - name: id_m
+          in: path
+          required: true
+          description: id mashine
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+            adplication/json:
+              schema:
+                $ref: "#/components/schemas/Mode"
+      responses:
+        '200':
+          description: successful operation
+          content:
+            adplication/json:
+              schema:
+                $ref: "#/components/schemas/Mode"
+        '400':
+          description: Ошибка
+          content:
+            adplication/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /statistic/{id_m}:
+    get:
+      tags:
+        - Mashine
+      summary: Статистика
+      description: Отображение статистики робота
+      operationId: statistick
+      parameters:
+        - name: id_m
+          in: path
+          required: true
+          description: id mashine
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: Ошибка
+          content:
+            adplication/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /calendar/{id_m}:
+    get:
+      tags:
+        - Mashine
+      summary: Расписание
+      description: Информация о расписании работы робота
+      operationId: calendar
+      parameters:
+        - name: id_m
+          in: path
+          required: true
+          description: id mashine
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: Ошибка
+          content:
+            adplication/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /maps/{id_m}:
+    get:
+      tags:
+        - Mashine
+      summary: Карты
+      description: Список карт робота
+      operationId: maps
+      parameters:
+        - name: id_m
+          in: path
+          required: true
+          description: id mashine
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            adplication/json: {}
+        '400':
+          description: Ошибка
+          content:
+            adplication/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+components:
+  schemas:
+    Mashines:
+      type: array
+      items:
+        $ref: "#/components/schemas/Mashine"
+    Mashine:
+      type: object
+      required:
+        - Id
+        - Name
+      properties:
+        Id:
+          type: integer
+          description: ID
+        Name:
+          type: string
+          description: Neme mashine
+    Modes:
+      type: array
+      items:
+        $ref: "#/components/schemas/Mode"
+    Mode:
+      type: object
+      required:
+        - Id
+        - Name
+        - ModeType
+        - DateStart
+        - DateEnd
+        - Map
+      properties:
+        Id:
+          type: integer
+          description: ID Mode
+        Name:
+          type: string
+          description: Neme mode
+        ModeType:
+          type: string
+          description: Type of mode
+        DateStart:
+          type: string
+          description: start time/date
+        DateEnd:
+          type: string
+          description: end time/date
+        Map:
+          type: object
+          description: start time/date
+    LoginForm:
+      type: object
+      required:
+        - Login
+        - Password
+      properties:
+        Login:
+          type: string
+          description: login
+        Password:
+          type: string
+          description: password
+    Error:
+      type: object
+      required:
+        - codeError
+        - messageError
+      properties:
+        codeError:
+          type: string
+          example: 123f456
+          description: Код ошибки
+        messageError:
+          type: string
+          example: error
+          description: Сообщение об ошибке
